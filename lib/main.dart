@@ -28,6 +28,7 @@ class ParticleWidget extends StatefulWidget {
 class _ParticleWidgetState extends State<ParticleWidget>
     with SingleTickerProviderStateMixin {
   late List<Particle> particles;
+
   // Random rd = Random(DateTime.now().millisecondsSinceEpoch);
   Random rd = Random();
   late Animation<double> animation;
@@ -48,7 +49,7 @@ class _ParticleWidgetState extends State<ParticleWidget>
         if (status == AnimationStatus.completed) {
           controller.repeat();
         } else if (status == AnimationStatus.dismissed) {
-         // controller.forward();
+          // controller.forward();
         }
       });
     controller.forward();
@@ -56,10 +57,10 @@ class _ParticleWidgetState extends State<ParticleWidget>
     particles = List<Particle>.generate(100, (index) {
       var particle = Particle();
       particle.position = Offset(-1, -1);
-      particle.radius = doubleInRange(rd,2,20);
-      particle.speed =doubleInRange(rd,.03,2.0);
+      particle.radius = doubleInRange(rd, 2, 20);
+      particle.speed = doubleInRange(rd, .03, 2.0);
       particle.angle = rd.nextDouble() * 2 * pi;
-      particle.color=getRandomColor(rd);
+      particle.color = getRandomColor(rd);
       return particle;
     });
   }
@@ -85,17 +86,20 @@ Offset getVelocity(double angle, double speed) {
   var dy = speed * sin(angle);
   return Offset(dx, dy);
 }
-Color getRandomColor(Random random)
-{
-  int red=intInRange(random,100,255);
-  int green=intInRange(random,0,255);
-  int blue=intInRange(random,0,255);
-  int alpha = intInRange(random,210,255);
+
+Color getRandomColor(Random random) {
+  int red = intInRange(random, 100, 255);
+  int green = intInRange(random, 0, 255);
+  int blue = intInRange(random, 0, 255);
+  int alpha = intInRange(random, 210, 255);
   return Color.fromARGB(alpha, red, green, blue);
 }
 
-double doubleInRange(Random random, num min, num max) =>random.nextDouble() * (max - min) + min;
-int intInRange(Random random, int min, int max) => min + random.nextInt(max - min);
+double doubleInRange(Random random, num min, num max) =>
+    random.nextDouble() * (max - min) + min;
+
+int intInRange(Random random, int min, int max) =>
+    min + random.nextInt(max - min);
 
 class ParticlePainter extends CustomPainter {
   List<Particle> particles;
@@ -120,7 +124,7 @@ class ParticlePainter extends CustomPainter {
       }
 
       particle.position = Offset(dx, dy);
-      circlePaint.color=particle.color;
+      circlePaint.color = particle.color;
       canvas.drawCircle(particle.position, particle.radius, circlePaint);
     });
   }
