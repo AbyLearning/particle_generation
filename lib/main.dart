@@ -53,11 +53,11 @@ class _ParticleWidgetState extends State<ParticleWidget>
       });
     controller.forward();
 
-    particles = List<Particle>.generate(200, (index) {
+    particles = List<Particle>.generate(100, (index) {
       var particle = Particle();
       particle.position = Offset(-1, -1);
-      particle.radius = rd.nextDouble() * 15;
-      particle.speed = rd.nextDouble() * 2.0;
+      particle.radius = doubleInRange(rd,2,20);
+      particle.speed =doubleInRange(rd,.03,2.0);
       particle.angle = rd.nextDouble() * 2 * pi;
       particle.color=getRandomColor(rd);
       return particle;
@@ -87,11 +87,16 @@ Offset getVelocity(double angle, double speed) {
 }
 Color getRandomColor(Random random)
 {
-  int r=random.nextInt(255);
-  int g=random.nextInt(255);
-  int b=random.nextInt(255);
-  return Color.fromARGB(255, r, g, b);
+  int red=intInRange(random,100,255);
+  int green=intInRange(random,0,255);
+  int blue=intInRange(random,0,255);
+  int alpha = intInRange(random,210,255);
+  return Color.fromARGB(alpha, red, green, blue);
 }
+
+double doubleInRange(Random random, num min, num max) =>random.nextDouble() * (max - min) + min;
+int intInRange(Random random, int min, int max) => min + random.nextInt(max - min);
+
 class ParticlePainter extends CustomPainter {
   List<Particle> particles;
   Random random;
